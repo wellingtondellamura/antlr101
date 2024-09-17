@@ -1,8 +1,8 @@
 ﻿using System;
-using SemanticRules.Grammar;
+using ListenersExpr.Grammar;
 using Antlr4.Runtime;
 
-namespace SemanticRules
+namespace ListenersExpr
 {
     internal class Program
     {
@@ -15,7 +15,8 @@ namespace SemanticRules
                 var stream = CharStreams.fromString(question);
                 var lexer = new ExprLexer(stream);
                 var tokenStream = new BufferedTokenStream(lexer);
-                var parser = new ExprParser(tokenStream);    
+                var parser = new ExprParser(tokenStream); 
+                parser.AddParseListener(new EvalListener());   
                 var res = parser.expr();
                 Console.WriteLine(res.value);
             } while (question != "");

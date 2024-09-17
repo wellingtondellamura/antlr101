@@ -19,7 +19,7 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
-namespace SemanticRules.Grammar {
+namespace ListenersExpr.Grammar {
 using System;
 using System.IO;
 using System.Text;
@@ -108,4 +108,4 @@ public partial class ExprLexer : Lexer {
 
 
 }
-} // namespace SemanticRules.Grammar
+} // namespace ListenersExpr.Grammar

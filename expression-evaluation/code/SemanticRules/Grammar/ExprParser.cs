@@ -37,18 +37,18 @@ public partial class ExprParser : Parser {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		T__0=1, T__1=2, T__2=3, T__3=4, NEWLINE=5, DIGIT=6, WS=7;
+		T__0=1, T__1=2, T__2=3, T__3=4, DIGIT=5, WS=6;
 	public const int
-		RULE_prog = 0, RULE_expr = 1, RULE_term = 2, RULE_fact = 3;
+		RULE_expr = 0, RULE_term = 1, RULE_fact = 2;
 	public static readonly string[] ruleNames = {
-		"prog", "expr", "term", "fact"
+		"expr", "term", "fact"
 	};
 
 	private static readonly string[] _LiteralNames = {
 		null, "'+'", "'*'", "'('", "')'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, null, null, null, "NEWLINE", "DIGIT", "WS"
+		null, null, null, null, null, "DIGIT", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -82,62 +82,10 @@ public partial class ExprParser : Parser {
 		Interpreter = new ParserATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
 	}
 
-	public partial class ProgContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ExprContext[] expr() {
-			return GetRuleContexts<ExprContext>();
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr(int i) {
-			return GetRuleContext<ExprContext>(i);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] NEWLINE() { return GetTokens(ExprParser.NEWLINE); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NEWLINE(int i) {
-			return GetToken(ExprParser.NEWLINE, i);
-		}
-		public ProgContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_prog; } }
-	}
-
-	[RuleVersion(0)]
-	public ProgContext prog() {
-		ProgContext _localctx = new ProgContext(Context, State);
-		EnterRule(_localctx, 0, RULE_prog);
-		int _la;
-		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 13;
-			ErrorHandler.Sync(this);
-			_la = TokenStream.LA(1);
-			while (_la==T__2 || _la==DIGIT) {
-				{
-				{
-				State = 8;
-				expr(0);
-				State = 9;
-				Match(NEWLINE);
-				}
-				}
-				State = 15;
-				ErrorHandler.Sync(this);
-				_la = TokenStream.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
 	public partial class ExprContext : ParserRuleContext {
+		public int value;
+		public TermContext _term;
+		public ExprContext _expr;
 		[System.Diagnostics.DebuggerNonUserCode] public TermContext term() {
 			return GetRuleContext<TermContext>(0);
 		}
@@ -153,50 +101,32 @@ public partial class ExprParser : Parser {
 
 	[RuleVersion(0)]
 	public ExprContext expr() {
-		return expr(0);
-	}
-
-	private ExprContext expr(int _p) {
-		ParserRuleContext _parentctx = Context;
-		int _parentState = State;
-		ExprContext _localctx = new ExprContext(Context, _parentState);
-		ExprContext _prevctx = _localctx;
-		int _startState = 2;
-		EnterRecursionRule(_localctx, 2, RULE_expr, _p);
+		ExprContext _localctx = new ExprContext(Context, State);
+		EnterRule(_localctx, 0, RULE_expr);
 		try {
-			int _alt;
-			EnterOuterAlt(_localctx, 1);
-			{
-			{
-			State = 17;
-			term(0);
-			}
-			Context.Stop = TokenStream.LT(-1);
-			State = 24;
+			State = 14;
 			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,1,Context);
-			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					if ( ParseListeners!=null )
-						TriggerExitRuleEvent();
-					_prevctx = _localctx;
-					{
-					{
-					_localctx = new ExprContext(_parentctx, _parentState);
-					PushNewRecursionContext(_localctx, _startState, RULE_expr);
-					State = 19;
-					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-					State = 20;
-					Match(T__0);
-					State = 21;
-					term(0);
-					}
-					} 
+			switch ( Interpreter.AdaptivePredict(TokenStream,0,Context) ) {
+			case 1:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 6;
+				_localctx._term = term();
+				State = 7;
+				Match(T__0);
+				State = 8;
+				_localctx._expr = expr();
+				_localctx.value =  _localctx._term.value + _localctx._expr.value;
 				}
-				State = 26;
-				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,1,Context);
-			}
+				break;
+			case 2:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 11;
+				_localctx._term = term();
+				_localctx.value =  _localctx._term.value;
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -205,12 +135,15 @@ public partial class ExprParser : Parser {
 			ErrorHandler.Recover(this, re);
 		}
 		finally {
-			UnrollRecursionContexts(_parentctx);
+			ExitRule();
 		}
 		return _localctx;
 	}
 
 	public partial class TermContext : ParserRuleContext {
+		public int value;
+		public FactContext _fact;
+		public TermContext _term;
 		[System.Diagnostics.DebuggerNonUserCode] public FactContext fact() {
 			return GetRuleContext<FactContext>(0);
 		}
@@ -226,50 +159,32 @@ public partial class ExprParser : Parser {
 
 	[RuleVersion(0)]
 	public TermContext term() {
-		return term(0);
-	}
-
-	private TermContext term(int _p) {
-		ParserRuleContext _parentctx = Context;
-		int _parentState = State;
-		TermContext _localctx = new TermContext(Context, _parentState);
-		TermContext _prevctx = _localctx;
-		int _startState = 4;
-		EnterRecursionRule(_localctx, 4, RULE_term, _p);
+		TermContext _localctx = new TermContext(Context, State);
+		EnterRule(_localctx, 2, RULE_term);
 		try {
-			int _alt;
-			EnterOuterAlt(_localctx, 1);
-			{
-			{
-			State = 28;
-			fact();
-			}
-			Context.Stop = TokenStream.LT(-1);
-			State = 35;
+			State = 24;
 			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
-			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					if ( ParseListeners!=null )
-						TriggerExitRuleEvent();
-					_prevctx = _localctx;
-					{
-					{
-					_localctx = new TermContext(_parentctx, _parentState);
-					PushNewRecursionContext(_localctx, _startState, RULE_term);
-					State = 30;
-					if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-					State = 31;
-					Match(T__1);
-					State = 32;
-					fact();
-					}
-					} 
+			switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
+			case 1:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 16;
+				_localctx._fact = fact();
+				State = 17;
+				Match(T__1);
+				State = 18;
+				_localctx._term = term();
+				_localctx.value =  _localctx._fact.value * _localctx._term.value;
 				}
-				State = 37;
-				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
-			}
+				break;
+			case 2:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 21;
+				_localctx._fact = fact();
+				_localctx.value =  _localctx._fact.value;
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -278,12 +193,15 @@ public partial class ExprParser : Parser {
 			ErrorHandler.Recover(this, re);
 		}
 		finally {
-			UnrollRecursionContexts(_parentctx);
+			ExitRule();
 		}
 		return _localctx;
 	}
 
 	public partial class FactContext : ParserRuleContext {
+		public int value;
+		public ExprContext _expr;
+		public IToken _DIGIT;
 		[System.Diagnostics.DebuggerNonUserCode] public ExprContext expr() {
 			return GetRuleContext<ExprContext>(0);
 		}
@@ -298,27 +216,29 @@ public partial class ExprParser : Parser {
 	[RuleVersion(0)]
 	public FactContext fact() {
 		FactContext _localctx = new FactContext(Context, State);
-		EnterRule(_localctx, 6, RULE_fact);
+		EnterRule(_localctx, 4, RULE_fact);
 		try {
-			State = 43;
+			State = 33;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case T__2:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 38;
+				State = 26;
 				Match(T__2);
-				State = 39;
-				expr(0);
-				State = 40;
+				State = 27;
+				_localctx._expr = expr();
+				State = 28;
 				Match(T__3);
+				_localctx.value =  _localctx._expr.value;
 				}
 				break;
 			case DIGIT:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 42;
-				Match(DIGIT);
+				State = 31;
+				_localctx._DIGIT = Match(DIGIT);
+				_localctx.value =  Int32.Parse((_localctx._DIGIT!=null?_localctx._DIGIT.Text:null));
 				}
 				break;
 			default:
@@ -336,40 +256,17 @@ public partial class ExprParser : Parser {
 		return _localctx;
 	}
 
-	public override bool Sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
-		switch (ruleIndex) {
-		case 1: return expr_sempred((ExprContext)_localctx, predIndex);
-		case 2: return term_sempred((TermContext)_localctx, predIndex);
-		}
-		return true;
-	}
-	private bool expr_sempred(ExprContext _localctx, int predIndex) {
-		switch (predIndex) {
-		case 0: return Precpred(Context, 2);
-		}
-		return true;
-	}
-	private bool term_sempred(TermContext _localctx, int predIndex) {
-		switch (predIndex) {
-		case 1: return Precpred(Context, 2);
-		}
-		return true;
-	}
-
 	private static int[] _serializedATN = {
-		4,1,7,46,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,1,0,1,0,1,0,5,0,12,8,0,10,0,12,
-		0,15,9,0,1,1,1,1,1,1,1,1,1,1,1,1,5,1,23,8,1,10,1,12,1,26,9,1,1,2,1,2,1,
-		2,1,2,1,2,1,2,5,2,34,8,2,10,2,12,2,37,9,2,1,3,1,3,1,3,1,3,1,3,3,3,44,8,
-		3,1,3,0,2,2,4,4,0,2,4,6,0,0,45,0,13,1,0,0,0,2,16,1,0,0,0,4,27,1,0,0,0,
-		6,43,1,0,0,0,8,9,3,2,1,0,9,10,5,5,0,0,10,12,1,0,0,0,11,8,1,0,0,0,12,15,
-		1,0,0,0,13,11,1,0,0,0,13,14,1,0,0,0,14,1,1,0,0,0,15,13,1,0,0,0,16,17,6,
-		1,-1,0,17,18,3,4,2,0,18,24,1,0,0,0,19,20,10,2,0,0,20,21,5,1,0,0,21,23,
-		3,4,2,0,22,19,1,0,0,0,23,26,1,0,0,0,24,22,1,0,0,0,24,25,1,0,0,0,25,3,1,
-		0,0,0,26,24,1,0,0,0,27,28,6,2,-1,0,28,29,3,6,3,0,29,35,1,0,0,0,30,31,10,
-		2,0,0,31,32,5,2,0,0,32,34,3,6,3,0,33,30,1,0,0,0,34,37,1,0,0,0,35,33,1,
-		0,0,0,35,36,1,0,0,0,36,5,1,0,0,0,37,35,1,0,0,0,38,39,5,3,0,0,39,40,3,2,
-		1,0,40,41,5,4,0,0,41,44,1,0,0,0,42,44,5,6,0,0,43,38,1,0,0,0,43,42,1,0,
-		0,0,44,7,1,0,0,0,4,13,24,35,43
+		4,1,6,36,2,0,7,0,2,1,7,1,2,2,7,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,3,0,15,
+		8,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,25,8,1,1,2,1,2,1,2,1,2,1,2,1,2,
+		1,2,3,2,34,8,2,1,2,0,0,3,0,2,4,0,0,35,0,14,1,0,0,0,2,24,1,0,0,0,4,33,1,
+		0,0,0,6,7,3,2,1,0,7,8,5,1,0,0,8,9,3,0,0,0,9,10,6,0,-1,0,10,15,1,0,0,0,
+		11,12,3,2,1,0,12,13,6,0,-1,0,13,15,1,0,0,0,14,6,1,0,0,0,14,11,1,0,0,0,
+		15,1,1,0,0,0,16,17,3,4,2,0,17,18,5,2,0,0,18,19,3,2,1,0,19,20,6,1,-1,0,
+		20,25,1,0,0,0,21,22,3,4,2,0,22,23,6,1,-1,0,23,25,1,0,0,0,24,16,1,0,0,0,
+		24,21,1,0,0,0,25,3,1,0,0,0,26,27,5,3,0,0,27,28,3,0,0,0,28,29,5,4,0,0,29,
+		30,6,2,-1,0,30,34,1,0,0,0,31,32,5,5,0,0,32,34,6,2,-1,0,33,26,1,0,0,0,33,
+		31,1,0,0,0,34,5,1,0,0,0,3,14,24,33
 	};
 
 	public static readonly ATN _ATN =
