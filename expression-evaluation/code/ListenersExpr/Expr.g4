@@ -14,6 +14,7 @@ fact returns [int value]
      ;
 
 DIGIT : [0-9]+;
+SUM   : '+';
 WS : [ \t]+ -> skip ;
 
 

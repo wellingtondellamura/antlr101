@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ListenersExpr")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4301130383cfbf8e76070fb638736ce028e44264")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95cee4524b96a80edab978deaea618d634d1a1c9")]
 [assembly: System.Reflection.AssemblyProductAttribute("ListenersExpr")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ListenersExpr")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

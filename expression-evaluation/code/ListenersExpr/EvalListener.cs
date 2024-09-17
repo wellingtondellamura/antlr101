@@ -11,29 +11,32 @@ namespace ListenersExpr
     using ListenersExpr.Grammar;
 
     public class EvalListener : ExprBaseListener {
-        public override void EnterExprAdd([NotNull] ExprParser.ExprAddContext context) {
-            var left = int.Parse(context.expr(0).value);
-            var right = int.Parse(context.expr(1).value);
-            context.value = (left + right).ToString();
+
+        
+        public override void ExitExprTerm([NotNull] ExprParser.ExprTermContext context) {
+            context.value = context.term().value;
         }
 
-        public override void EnterExprTerm([NotNull] ExprParser.ExprTermContext context) {
+        public override void ExitExprAdd([NotNull] ExprParser.ExprAddContext context) {
+            context.value = context.term().value + context.expr().value;
+        }
+
+        public override void ExitTermMult([NotNull] ExprParser.TermMultContext context) {
+            context.value = context.fact().value * context.term().value;
+        }
+
+        public override void ExitTermFact([NotNull] ExprParser.TermFactContext context) {
+            context.value = context.fact().value;
+        }
+
+        public override void ExitFactExpr([NotNull] ExprParser.FactExprContext context) {
             context.value = context.expr().value;
         }
 
-        public override void EnterTermMult([NotNull] ExprParser.TermMultContext context) {
-            var left = int.Parse(context.term().value);
-            var right = int.Parse(context.expr().value);
-            context.value = (left * right).ToString();
+        public override void ExitFactDigit([NotNull] ExprParser.FactDigitContext context) {
+            context.value = int.Parse(context.DIGIT().GetText());
         }
 
-        public override void EnterTermFact([NotNull] ExprParser.TermFactContext context) {
-            context.value = context.DIGIT().GetText();
-        }
-
-        public EnterFactExpr([NotNull] ExprParser.FactExprContext context) {
-            context.value = context.expr().value;
-        }
     }
 
 }
