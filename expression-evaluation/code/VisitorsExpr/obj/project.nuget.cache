@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "A/Mlt6RJ/pE=",
+  "success": true,
+  "projectFilePath": "C:\\projects-uenp\\antlr101\\expression-evaluation\\code\\VisitorsExpr\\VisitorsExpr.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wellington\\.nuget\\packages\\antlr4.runtime.standard\\4.13.1\\antlr4.runtime.standard.4.13.1.nupkg.sha512"
+  ],
+  "logs": []
+}
